@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Failed } from "../../common/components/Failed";
+import { Loader } from "../../common/components/Loader";
 import { FAILED, PENDING, SUCCEEDED } from "../../common/constants";
 import { ProductsList } from "./ProductsList";
 import { useProductsFetch } from "./useProductsFetch";
@@ -10,8 +11,8 @@ export const Products = ({ catalog }) => {
 
   useProductsFetch(catalog, stateCatalog, status);
 
+  if (status === PENDING) return <Loader />;
   if (status === FAILED) return <Failed />;
-  if (status === SUCCEEDED) return <ProductsList products={products} />;
   if (status === SUCCEEDED) return <ProductsList products={products} />;
   return null;
 };
