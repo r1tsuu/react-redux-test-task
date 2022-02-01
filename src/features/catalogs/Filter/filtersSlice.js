@@ -6,7 +6,7 @@ const { filtersApi } = require("../../../api/filtersApi");
 export const fetchAllFilters = createAsyncThunk(
   "filters/fetchAllFiltersStatus",
   async (catalogId) => {
-    return await filtersApi.getFiltersByCatalogId(catalogId);
+    return await filtersApi.fetchAllByCatalog(catalogId);
   }
 );
 

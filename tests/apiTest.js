@@ -5,10 +5,15 @@
 import { catalogsApi } from "../src/api/catalogsApi";
 import { filtersApi } from "../src/api/filtersApi";
 import { productsApi } from "../src/api/productsApi";
+import { config } from "../src/app/config";
 
 async function fetchAllCatalogs() {
   console.log(await catalogsApi.fetchAll());
 }
+
+const getFetchURL = (baseUrl, language, path, query='') => {
+  return baseUrl + "/" + path + "/" + language.toLowerCase() + "/" + query;
+};
 
 async function fetchProducts() {
   const catalogs = await catalogsApi.fetchAll();
@@ -22,6 +27,6 @@ async function fetchFilters() {
   console.log(await filtersApi.getFiltersByCatalogId(id));
 }
 
-(async () => {
-  fetchProducts();
-})();
+(async (f) => {
+  
+})(console.log);

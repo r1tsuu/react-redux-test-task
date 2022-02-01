@@ -1,33 +1,29 @@
-import { Base64 } from "js-base64"
-import { config } from "../app/config"
+import { Base64 } from "js-base64";
+import { config } from "../app/config";
+import { DOTJPG } from "./constants";
 
 /**
  * @param {string} baseUrl
  * @param {string} language
- * @param {string} route
- * @param  {string[]} params
- * @returns {string}
+ * @param {string} path
+ * @param  {string} query
+ * @returns {string} URL
  */
-const getFetchURL = (baseUrl, language, route, ...params) => {
-  /* from [param1, param2, param3...] to 'param1/param2/param3...' */
-  const paramsReduced = params.reduce((prev, current) => prev + "/" + current)
-
-  return (
-    baseUrl + "/" + route + "/" + language.toLowerCase() + "/" + paramsReduced
-  )
-}
+const getFetchURL = (path, query='') => {
+  return config.apiURL + "/" + path + "/" + config.apiLanguage.toLowerCase() + "/" + query;
+};
 
 const getImageURL = (urlFromApi) => {
   return (
-    "https://vestfrost.ua/" + "ua" + "/" + urlFromApi.split(".")[1] + ".jpg"
-  )
-}
+    config.url + config.apiLanguage.toLowerCase() + urlFromApi.split(".")[1] + DOTJPG
+  );
+};
 
 const filterIdsToUrl = (...ids) => {
-  return ids.reduce((prev, current) => prev + "," + current)
-}
+  return ids.reduce((prev, current) => prev + "," + current);
+};
 
 export const utils = {
   getFetchURL,
   getImageURL,
-}
+};

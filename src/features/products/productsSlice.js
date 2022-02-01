@@ -5,7 +5,7 @@ import { FAILED, IDLE, PENDING, SUCCEEDED } from "../../common/constants";
 export const fetchAllProducts = createAsyncThunk(
   "products/fetchAllProductsStatus",
   async (catalog) => {
-    return await productsApi.fetchAllByCatalog(catalog);
+    return await productsApi.fetchByCatalog(catalog);
   }
 );
 

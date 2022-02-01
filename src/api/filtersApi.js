@@ -1,7 +1,7 @@
 import { client } from "./api";
 
 export const filtersApi = {
-  getFiltersByCatalogId: async (catalogId) => {
+  fetchAllByCatalog: async (catalogId) => {
     return await client.get("catalog/filters", catalogId);
   },
 };

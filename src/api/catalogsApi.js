@@ -4,6 +4,6 @@ import {
 
 export const catalogsApi = {
     fetchAll: async() => {
-        return await client.get("catalog");
+        return await client.get("/catalog");
     },
 };
