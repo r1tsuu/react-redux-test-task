@@ -8,13 +8,10 @@ import { useCatalogsFetch } from "./useCatalogsFetch";
 import { useSelectCatalogs } from "./useSelectCatalogs";
 
 export const Catalogs = () => {
-  const [content, setContent] = useState(null);
   const [catalogs, status] = useSelectCatalogs();
   useCatalogsFetch(status);
-  useEffect(() => {
-    if (status === PENDING) setContent(<Loader />);
-    if (status === FAILED) setContent(<Failed />);
-    if (status === SUCCEEDED) setContent(<CatalogsList catalogs={catalogs} />);
-  }, [status]);
-  return content;
+  if (status === PENDING) return <Loader />;
+  if (status === FAILED) return <Failed />
+  if (status === SUCCEEDED) return <CatalogsList catalogs={catalogs} />
+  return null
 };

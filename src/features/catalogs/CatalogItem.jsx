@@ -1,16 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-
-const StyledHeading = styled.h3`
-  font-weight: 1000;
-  font-size: 26px;
-  @media (max-width: 750px) {
-    font-size: 22px;
-  }
-  line-height: 28px;
-  text-align: center;
-`;
+import { Title } from "../../common/components/Title";
 
 const StyledLink = styled(Link)`
   width: 100%;
@@ -48,8 +39,8 @@ const Item = styled.li`
 export const CatalogItem = ({ catalog }) => {
   return (
     <Item>
-      <StyledLink to={"/"}>
-        <StyledHeading>{catalog.categoryName}</StyledHeading>
+      <StyledLink to={`/catalog/` + catalog.url.ua}>
+        <Title>{catalog.categoryName}</Title>
       </StyledLink>
     </Item>
   );

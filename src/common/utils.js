@@ -1,3 +1,5 @@
+import { config } from "../app/config";
+
 /**
  * @param {string} baseUrl
  * @param {string} language
@@ -12,6 +14,11 @@ const getFetchURL = (baseUrl, language, route, ...params) => {
   return baseUrl + "/" + route + "/" + language.toLowerCase() + "/" + paramsReduced;
 };
 
+const getImageURL = (urlFromApi) => {
+  return 'https://vestfrost.ua/' + 'ua' + '/' + urlFromApi.split('.')[1] + '.jpg'
+}
+
 export const utils = {
   getFetchURL,
+  getImageURL
 };
