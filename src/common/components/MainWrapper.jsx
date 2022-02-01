@@ -8,5 +8,6 @@ export const MainWrapper = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  flex-wrap: wrap;
   min-height: 100vh;
 `

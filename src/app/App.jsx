@@ -3,6 +3,7 @@ import { ThemeProvider } from "styled-components";
 import { Header } from "../common/components/Header";
 import { MainWrapper } from "../common/components/MainWrapper";
 import { Catalogs } from "../features/catalogs/Catalogs";
+import { CatalogPage } from "../pages/Catalog/CatalogPage";
 import HomePage from "../pages/Home/HomePage";
 import { theme } from "./style";
 
@@ -14,6 +15,7 @@ const App = () => {
           <Header/>
           <Routes>
             <Route path='/' element={<HomePage/>}/>
+            <Route path='/catalog/:catalog' element={<CatalogPage/>}/>
           </Routes>
         </MainWrapper>
       </ThemeProvider>

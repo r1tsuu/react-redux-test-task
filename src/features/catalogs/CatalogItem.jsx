@@ -48,7 +48,7 @@ const Item = styled.li`
 export const CatalogItem = ({ catalog }) => {
   return (
     <Item>
-      <StyledLink to={'/'}>
+      <StyledLink to={"/"}>
         <StyledHeading>{catalog.categoryName}</StyledHeading>
       </StyledLink>
     </Item>

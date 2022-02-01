@@ -5,7 +5,6 @@ import { FAILED, IDLE, PENDING, SUCCEEDED } from "../../common/constants";
 export const fetchAllCatalogs = createAsyncThunk(
   "catalogs/fetchAllCatalogsStatus",
   async () => {
-    console.log("asdasd");
     return await catalogsApi.fetchAll();
   }
 );

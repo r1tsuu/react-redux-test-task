@@ -6,8 +6,6 @@ import { fetchAllCatalogs } from "./catalogsSlice";
 export const useCatalogsFetch = (status) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    if (status === IDLE) {
-      dispatch(fetchAllCatalogs());
-    }
+    if (status === IDLE) dispatch(fetchAllCatalogs());
   }, []);
 };

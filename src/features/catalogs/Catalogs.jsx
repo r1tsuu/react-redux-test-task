@@ -8,7 +8,7 @@ import { useCatalogsFetch } from "./useCatalogsFetch";
 import { useSelectCatalogs } from "./useSelectCatalogs";
 
 export const Catalogs = () => {
-  const [content, setContent] = useState(null)
+  const [content, setContent] = useState(null);
   const [catalogs, status] = useSelectCatalogs();
   useCatalogsFetch(status);
   useEffect(() => {
