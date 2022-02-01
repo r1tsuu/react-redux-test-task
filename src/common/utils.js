@@ -1,29 +1,28 @@
-import { Base64 } from "js-base64";
 import { config } from "../app/config";
 import { DOTJPG } from "./constants";
+import { buildUrl } from "../../node_modules/build-url/dist/build-url";
 
-/**
- * @param {string} baseUrl
- * @param {string} language
- * @param {string} path
- * @param  {string} query
- * @returns {string} URL
- */
-const getFetchURL = (path, query='') => {
-  return config.apiURL + "/" + path + "/" + config.apiLanguage.toLowerCase() + "/" + query;
+const getPath = (path, pathParams = "") =>
+  path + `/${config.apiLanguage.toLowerCase()}/` + pathParams;
+
+const getFetchUrl = (path, query) => {
+  return buildUrl(config.apiURL, {
+    path: path,
+    queryParams: query
+  });
 };
 
 const getImageURL = (urlFromApi) => {
   return (
-    config.url + config.apiLanguage.toLowerCase() + urlFromApi.split(".")[1] + DOTJPG
+    config.url +
+    config.apiLanguage.toLowerCase() +
+    urlFromApi.split(".")[1] +
+    DOTJPG
   );
 };
 
-const filterIdsToUrl = (...ids) => {
-  return ids.reduce((prev, current) => prev + "," + current);
-};
-
 export const utils = {
-  getFetchURL,
+  getPath,
+  getFetchUrl,
   getImageURL,
 };

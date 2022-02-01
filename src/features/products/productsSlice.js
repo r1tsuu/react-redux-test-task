@@ -4,8 +4,9 @@ import { FAILED, IDLE, PENDING, SUCCEEDED } from "../../common/constants";
 
 export const fetchAllProducts = createAsyncThunk(
   "products/fetchAllProductsStatus",
-  async (catalog) => {
-    return await productsApi.fetchByCatalog(catalog);
+  async (catalog, filter) => {
+    if (!filter) return await productsApi.fetchAllByCatalog(catalog);
+    return await productsApi.fetchAllByCatalog(catalog, filter);
   }
 );
 
@@ -31,6 +32,7 @@ export const productsSlice = createSlice({
     catalog: null,
     products: [],
     status: IDLE,
+    filter: null,
   },
   extraReducers: (builder) => {
     builder

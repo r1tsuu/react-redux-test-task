@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const Failed = (
   text = "HTTP Error, check your internet connection or contact with site administrator"
 ) => {

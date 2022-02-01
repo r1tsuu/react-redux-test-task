@@ -1,4 +1,4 @@
-import { FAILED, IDLE, PENDING, SUCCEEDED } from "../../../common/constants";
+import { FAILED, PENDING, SUCCEEDED } from "../../../common/constants";
 
 const { createAsyncThunk, createSlice } = require("@reduxjs/toolkit");
 const { filtersApi } = require("../../../api/filtersApi");
