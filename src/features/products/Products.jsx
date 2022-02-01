@@ -10,11 +10,11 @@ import { useSelectProducts } from "./useSelectProducts";
 export const Products = ({ catalog }) => {
   const [content, setContent] = useState(null);
   const [products, status] = useSelectProducts(catalog);
-  useProductsFetch(catalog);
+  useProductsFetch(catalog, status);
   useEffect(() => {
     if (status === PENDING) setContent(<Loader />);
-    if (status === FAILED) setContent(<Failed/>)
-    if (status === SUCCEEDED) setContent(<ProductsList products={products}/>)
-  });
+    if (status === FAILED) setContent(<Failed />);
+    if (status === SUCCEEDED) setContent(<ProductsList products={products} />);
+  }, [status]);
   return content;
 };
