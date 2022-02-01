@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"
 
 export const PageWrapper = styled.main`
   min-height: calc(100vh - 346px);
@@ -7,4 +7,4 @@ export const PageWrapper = styled.main`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-`;
+`

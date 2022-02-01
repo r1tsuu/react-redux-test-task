@@ -9,20 +9,20 @@ export const fetchAllProducts = createAsyncThunk(
   }
 );
 
-const fetchAllProductsPendingReducer = (state) => {
-  state.status = PENDING;
-};
-
-const fetchAllProductsFulfilledReducer = (state, action) => {
-  [state.catalog, state.products] = [
-    action.payload.catalog,
-    action.payload.products,
-  ];
-  state.status = SUCCEEDED;
-};
-
-const fetchAllProductsRejectedReducer = (state) => {
-  state.status = FAILED;
+const fetchAllProductsReducer = {
+  pending: (state) => {
+    state.status = PENDING;
+  },
+  fulfilled: (state, action) => {
+    [state.catalog, state.products] = [
+      action.payload.catalog,
+      action.payload.products,
+    ];
+    state.status = SUCCEEDED;
+  },
+  rejected: (state) => {
+    state.status = FAILED;
+  },
 };
 
 export const productsSlice = createSlice({
@@ -34,8 +34,8 @@ export const productsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAllProducts.pending, fetchAllProductsPendingReducer)
-      .addCase(fetchAllProducts.fulfilled, fetchAllProductsFulfilledReducer)
-      .addCase(fetchAllProducts.rejected, fetchAllProductsRejectedReducer);
+      .addCase(fetchAllProducts.pending, fetchAllProductsReducer.pending)
+      .addCase(fetchAllProducts.fulfilled, fetchAllProductsReducer.fulfilled)
+      .addCase(fetchAllProducts.rejected, fetchAllProductsReducer.rejected);
   },
 });

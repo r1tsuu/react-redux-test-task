@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { ProductItem } from './ProductItem';
+import React from "react";
+import styled from "styled-components";
+import { ProductItem } from "./ProductItem";
 
 const List = styled.ul`
   display: flex;
@@ -16,8 +16,8 @@ export const ProductsList = ({ products }) => {
   return (
     <List>
       {products.map((product) => (
-        <ProductItem product={product} key={product._id}/>
+        <ProductItem product={product} key={product._id} />
       ))}
     </List>
-  )
+  );
 };

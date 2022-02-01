@@ -7,5 +7,6 @@ export const useCatalogsFetch = (status) => {
   const dispatch = useDispatch();
   useEffect(() => {
     if (status === IDLE) dispatch(fetchAllCatalogs());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };

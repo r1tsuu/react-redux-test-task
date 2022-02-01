@@ -15,8 +15,9 @@ const StyledLink = styled(Link)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #ffe9e4;
   color: ${(props) => props.theme.colors.primary};
+  background-color: #ffe9e4;
+  text-align: center;
   &:focus,
   &:hover,
   &:visited,
@@ -25,7 +26,7 @@ const StyledLink = styled(Link)`
     text-decoration: none;
   }
   :hover {
-    //background-color:${(props) => props.theme.colors.primary} ;
+    background-color:${(props) => props.theme.colors.primary} ;
     color: white;
   }
 `;

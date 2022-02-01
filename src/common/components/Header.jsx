@@ -43,4 +43,4 @@ export const Header = () => {
       </HeaderContainer>
     </Content>
   );
-}
+};

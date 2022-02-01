@@ -9,17 +9,17 @@ export const fetchAllCatalogs = createAsyncThunk(
   }
 );
 
-const fetchCatalogsPendingReducer = (state) => {
-  state.status = PENDING;
-};
-
-const fetchCatalogsFulfilledReducer = (state, action) => {
-  state.catalogs = action.payload;
-  state.status = SUCCEEDED;
-};
-
-const fetchCatalogsRejectedReducer = (state) => {
-  state.status = FAILED;
+const fetchAllCatalogsReducer = {
+  pending: (state) => {
+    state.status = PENDING;
+  },
+  fullfilled: (state, action) => {
+    state.catalogs = action.payload;
+    state.status = SUCCEEDED;
+  },
+  rejected: (state) => {
+    state.status = FAILED;
+  },
 };
 
 export const catalogsSlice = createSlice({
@@ -30,8 +30,8 @@ export const catalogsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAllCatalogs.pending, fetchCatalogsPendingReducer)
-      .addCase(fetchAllCatalogs.fulfilled, fetchCatalogsFulfilledReducer)
-      .addCase(fetchAllCatalogs.rejected, fetchCatalogsRejectedReducer);
+      .addCase(fetchAllCatalogs.pending, fetchAllCatalogsReducer.pending)
+      .addCase(fetchAllCatalogs.fulfilled, fetchAllCatalogsReducer.fullfilled)
+      .addCase(fetchAllCatalogs.rejected, fetchAllCatalogsReducer.rejected);
   },
 });

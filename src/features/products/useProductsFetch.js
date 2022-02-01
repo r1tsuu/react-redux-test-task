@@ -5,7 +5,9 @@ import { fetchAllProducts } from "./productsSlice";
 
 export const useProductsFetch = (catalog, stateCatalog, status) => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (status === IDLE || catalog !== stateCatalog) dispatch(fetchAllProducts(catalog));
-  }, []);
+  useEffect( () => {
+    if (status === IDLE || catalog !== stateCatalog)
+      dispatch(fetchAllProducts(catalog));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 };

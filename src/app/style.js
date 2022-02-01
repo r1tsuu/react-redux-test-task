@@ -6,5 +6,5 @@ export const theme = {
   fonts: {
     primary: "Montserrat",
   },
-  fontSize: '18px'
+  fontSize: "18px",
 };

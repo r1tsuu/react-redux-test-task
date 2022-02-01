@@ -8,12 +8,15 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.25.0",
+    "js-base64": "^3.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-loader-spinner": "^5.1.0",
+    "react-modal": "^3.14.4",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
+    "react-select": "^5.2.2",
     "redux": "^4.1.2",
     "web-vitals": "^2.1.4"
   },
@@ -42,8 +45,14 @@
     ]
   },
   "devDependencies": {
+    "eslint": "^8.8.0",
+    "eslint-config-react-app": "^7.0.0",
     "esm": "^3.2.25",
     "redux-devtools-extension": "^2.13.9",
     "styled-components": "^5.3.3"
+  },
+  "prettier": {
+    "tabWidth": 2,
+    "semi": true
   }
 }

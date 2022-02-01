@@ -1,7 +1,9 @@
-import { client } from "./api";
+import {
+    client
+} from "./api";
 
 export const catalogsApi = {
-  fetchAll: async () => {
-    return await client.get("catalog");
-  },
+    fetchAll: async() => {
+        return await client.get("catalog");
+    },
 };

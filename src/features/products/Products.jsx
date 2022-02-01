@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Failed } from "../../common/components/Failed";
 import { Loader } from "../../common/components/Loader";
 import { FAILED, PENDING, SUCCEEDED } from "../../common/constants";

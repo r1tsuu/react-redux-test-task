@@ -1,9 +1,8 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { Header } from "../common/components/Header";
 import { MainWrapper } from "../common/components/MainWrapper";
-import { CatalogPage } from "../pages/Catalog/CatalogPage";
-import HomePage from "../pages/Home/HomePage";
+import { AppRoutes } from "./AppRoutes";
 import { theme } from "./style";
 
 const App = () => {
@@ -11,11 +10,8 @@ const App = () => {
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <MainWrapper>
-          <Header/>
-          <Routes>
-            <Route path='/' element={<HomePage/>}/>
-            <Route path='/catalog/:catalog' element={<CatalogPage/>}/>
-          </Routes>
+          <Header />
+          <AppRoutes />
         </MainWrapper>
       </ThemeProvider>
     </BrowserRouter>
