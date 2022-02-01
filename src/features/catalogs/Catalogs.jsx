@@ -6,10 +6,10 @@ import { useCatalogsFetch } from "./useCatalogsFetch";
 import { useSelectCatalogs } from "./useSelectCatalogs";
 
 export const Catalogs = () => {
-  const [catalogs, status] = useSelectCatalogs();
-  
+  const { catalogs, status } = useSelectCatalogs();
+
   useCatalogsFetch(status);
-  
+
   if (status === PENDING) return <Loader />;
   if (status === FAILED) return <Failed />;
   if (status === SUCCEEDED) return <CatalogsList catalogs={catalogs} />;

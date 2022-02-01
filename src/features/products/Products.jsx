@@ -6,10 +6,10 @@ import { useProductsFetch } from "./useProductsFetch";
 import { useSelectProducts } from "./useSelectProducts";
 
 export const Products = ({ catalog }) => {
-  const [products, status, stateCatalog] = useSelectProducts(catalog);
+  const { products, status, stateCatalog, filter } = useSelectProducts();
 
   useProductsFetch(catalog, stateCatalog, status);
-
+  
   if (status === PENDING) return <Loader />;
   if (status === FAILED) return <Failed />;
   if (status === SUCCEEDED) return <ProductsList products={products} />;

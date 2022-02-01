@@ -1,4 +1,5 @@
 import { Oval } from "react-loader-spinner";
+import "../../../node_modules/react-loader-spinner/dist/loader/css";
 import styled from "styled-components";
 
 const LoaderDiv = styled.div`

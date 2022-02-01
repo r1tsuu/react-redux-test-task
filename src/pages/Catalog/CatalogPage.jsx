@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Container } from "../../common/components/Container";
-import { Catalogs } from "../../features/catalogs/Catalogs";
+import { Filter } from "../../features/Filter/Filter";
 import { Products } from "../../features/products/Products";
 import { PageWrapper } from "../PageWrapper";
 import { useCatalogParams } from "./useCatalogParams";
@@ -32,6 +32,7 @@ export const CatalogPage = () => {
         <CatalogTitle>{catalog}</CatalogTitle>
       </CatalogHeading>
       <Container>
+        <Filter catalog={catalog}/>
         <Products catalog={catalog}/>
       </Container>
     </PageWrapper>

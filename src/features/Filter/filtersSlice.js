@@ -1,12 +1,15 @@
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { FAILED, PENDING, SUCCEEDED } from "../../../common/constants";
-
-const { createAsyncThunk, createSlice } = require("@reduxjs/toolkit");
-const { filtersApi } = require("../../../api/filtersApi");
+import { filtersApi } from "../../api/filtersApi";
+import { IDLE } from "../../common/constants";
 
 export const fetchAllFilters = createAsyncThunk(
   "filters/fetchAllFiltersStatus",
   async (catalogId) => {
-    return await filtersApi.fetchAllByCatalog(catalogId);
+    return {
+      filters: await filtersApi.fetchByCatalog(catalogId),
+      catalogId: catalogId,
+    };
   }
 );
 
@@ -15,7 +18,8 @@ const fetchAllFiltersReducer = {
     state.status = PENDING;
   },
   fulfilled: (state, action) => {
-    state.filters.push(action.payload);
+    state.filters = action.payload.filters;
+    state.catalogId = action.payload.catalogId;
     state.status = SUCCEEDED;
   },
   rejected: (state) => {
@@ -28,6 +32,10 @@ export const filtersSlice = createSlice({
   initialState: {
     data: [],
     catalogId: null,
+    status: IDLE,
+  },
+  reducers: (builder) => {
+    builder.addCase();
   },
   extraReducers: (builder) => {
     builder

@@ -1,10 +1,15 @@
 /* eslint-disable no-unused-vars */
 
+/** Node.js with es6 imports run */
 /* node -r esm apiTest.js */
 
 import { catalogsApi } from "../src/api/catalogsApi";
 import { filtersApi } from "../src/api/filtersApi";
 import { productsApi } from "../src/api/productsApi";
+
+/**  API SHOWCASES NOTE */
+/**  API SHOWCASES NOTE */
+/**  API SHOWCASES NOTE */
 
 /** catalogs fetch */
 // {
@@ -51,5 +56,5 @@ import { productsApi } from "../src/api/productsApi";
 
 
 (async (f) => {
-  f(await filtersApi.fetchAllByCatalog("5f27df315b1900000079be1c"));
+  f(await filtersApi.fetchByCatalog("5f27df315b1900000079be1c"));
 })(console.log);

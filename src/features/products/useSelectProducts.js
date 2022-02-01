@@ -1,6 +1,11 @@
 import { useSelector } from "react-redux";
 
-export const useSelectProducts = (catalog) => {
+export const useSelectProducts = () => {
   const productsState = useSelector((state) => state.products);
-  return [productsState.products, productsState.status, productsState.catalog];
+  return {
+    products: productsState.products,
+    status: productsState.status,
+    stateCatalog: productsState.catalog,
+    filter: productsState.filter,
+  };
 };
