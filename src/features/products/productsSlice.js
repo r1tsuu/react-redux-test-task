@@ -29,21 +29,17 @@ export const deleteFilter = createAction(
   }
 );
 
-export const resetFilter = createAction("products/filter/resetFilter", () => {
-  return {
-    filters: [],
-  };
-});
+export const resetFilter = createAction("products/filter/resetFilter");
 
 const productsFilterReducer = {
   add: (state, action) => {
     state.filters.push(action.payload.filter);
   },
   delete: (state, action) => {
-    state.filter = state.filters.filter((f) => action.payload.filter !== f);
+    state.filters = state.filters.filter((f) => action.payload.filter !== f);
   },
-  reset: (state, action) => {
-    state.filters = action.payload.filters;
+  reset: (state) => {
+    state.filters = [];
   },
 };
 
