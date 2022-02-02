@@ -2,10 +2,8 @@ import { Failed } from "../../common/components/Failed";
 import { Loader } from "../../common/components/Loader";
 import { FAILED, PENDING, SUCCEEDED } from "../../common/constants";
 import { Filter } from "./Filter";
+import { useFetchFilters, useProductsFetch, useSelectProducts } from "./hooks";
 import { ProductsList } from "./ProductsList";
-import { useFetchFilters } from "./useFetchFilters";
-import { useProductsFetch } from "./useProductsFetch";
-import { useSelectProducts } from "./useSelectProducts";
 
 export const Products = ({ catalog }) => {
   const { products, status, stateCatalog } = useSelectProducts();

@@ -1,20 +1,9 @@
 import { useEffect, useState } from "react";
 import Select from "react-select";
 import styled from "styled-components";
-import { useFetchFilters } from "./useFetchFilters";
-
-const StyledButton = styled.button`
-  font-size: 25px;
-  font-weight: 800;
-  color: ${(props) => props.theme.colors.primary};
-  margin: 10px;
-  width: 75%;
-  background-color: #ffe9e4;
-  :hover {
-    background-color: ${(props) => props.theme.colors.primary};
-    color: white;
-  }
-`;
+import { StyledButton } from "../../common/components/StyledButton";
+import { RESET } from "../../common/constants";
+import { useFetchFilters, useFilterProducts } from "./hooks";
 
 const StyledItem = styled.li`
   flex: 1 1 calc((100% / 2) - 2rem);
@@ -39,19 +28,26 @@ const FlexContainer = styled.div`
 `;
 
 const Selector = ({ filter, reset }) => {
-  const [value, setValue] = useState(null);
+  const [filterId, setFilterId] = useState(null);
+  const [prevFilterId, setPrevFilterId] = useState(null)
 
-  const handleNewValue = (value) => setValue(value);
-  const handleClickReset = () => setValue(null);
+  const handleNewValue = (value) => {
+    if (filterId) setPrevFilterId(filterId)
+    setFilterId(value)
+  }
+  
+  const handleClickReset = () => setFilterId(RESET);
+
+  useFilterProducts(filterId, prevFilterId)
 
   useEffect(() => {
-    if (reset) setValue(null);
+    setFilterId(null);
   }, [reset]);
 
   return (
     <StyledItem key={filter._id}>
       <Select
-        value={value}
+        value={filterId}
         onChange={handleNewValue}
         placeholder={filter.group_title}
         options={filter.filters}
@@ -59,14 +55,11 @@ const Selector = ({ filter, reset }) => {
       <StyledButton onClick={handleClickReset}> Reset </StyledButton>
     </StyledItem>
   );
-};
+}
 
 const SelectorsList = ({ filters }) => {
-  const [resetValues, setResetValue] = useState(false)
-  const handleReset = () => { 
-    setResetValue(true)
-    setResetValue(false)
-  }
+  const [resetValues, setResetValues] = useState(true);
+  const handleReset = () => setResetValues(!resetValues);
   return (
     <FlexContainer>
       <StyledList>
@@ -81,7 +74,7 @@ const SelectorsList = ({ filters }) => {
   );
 };
 
-const FilterStyle = styled.div`
+const FilterContent = styled.div`
   padding-bottom: 10rem;
 `;
 
@@ -89,9 +82,9 @@ export const Filter = ({ catalogId }) => {
   const filters = useFetchFilters(catalogId);
   if (filters)
     return (
-      <FilterStyle>
+      <FilterContent>
         <SelectorsList filters={filters} />
-      </FilterStyle>
+      </FilterContent>
     );
   return null;
 };

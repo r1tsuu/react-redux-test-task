@@ -8,25 +8,21 @@ const getPath = (path, pathParams = "") =>
 const getFetchUrl = (path, query) => {
   return buildUrl(config.apiURL, {
     path: path,
-    queryParams: query
+    queryParams: query,
   });
 };
 
 const getImageURL = (urlFromApi) => {
-  return (
-    config.url +
-    urlFromApi.split(".")[1] +
-    DOTJPG
-  );
+  return config.url + urlFromApi.split(".")[1] + DOTJPG;
 };
 
 const combineFilters = (filters) => {
-  return filters.reduce((prev, next) => prev + ',' + next)
-}
+  return filters.reduce((prev, next) => prev + "," + next);
+};
 
 export const utils = {
   getPath,
   getFetchUrl,
   getImageURL,
-  combineFilters
+  combineFilters,
 };

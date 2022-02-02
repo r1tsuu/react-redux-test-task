@@ -2,8 +2,7 @@ import { Failed } from "../../common/components/Failed";
 import { Loader } from "../../common/components/Loader";
 import { FAILED, PENDING, SUCCEEDED } from "../../common/constants";
 import { CatalogsList } from "./CatalogsList";
-import { useCatalogsFetch } from "./useCatalogsFetch";
-import { useSelectCatalogs } from "./useSelectCatalogs";
+import { useCatalogsFetch, useSelectCatalogs } from "./hooks";
 
 export const Catalogs = () => {
   const { catalogs, status } = useSelectCatalogs();
