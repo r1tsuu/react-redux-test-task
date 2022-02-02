@@ -6,6 +6,7 @@ export const productsApi = {
     if (!catalogUrl || typeof catalogUrl !== "string")
       throw new Error(`Unexcpected catalog url value, catalog url: ${catalogUrl}`);
     const path = utils.getPath("catalog", catalogUrl);
+    console.log(path, filter)
     const query = { filter: filter };
     return await client.get(path, query);
   },

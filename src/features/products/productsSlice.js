@@ -4,12 +4,13 @@ import { FAILED, IDLE, PENDING, SUCCEEDED } from "../../common/constants";
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchAllProductsStatus",
-  async (catalog, filter) => {
-    if (!filter) return await productsApi.fetchByCatalog(catalog);
-    const products = await productsApi.fetchByCatalog(catalog, filter);
+  async (catalog) => {
+    const data = await productsApi.fetchByCatalog(catalog);
+    console.log(data.catalog, 'asdadsaaa')
+    // console.log(data, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaAA??')
     return {
-      products: products,
-      filter: filter,
+      products: data.products,
+      catalog: data.catalog,
     };
   }
 );
@@ -50,6 +51,7 @@ const fetchAllProductsReducer = {
   fulfilled: (state, action) => {
     state.products = action.payload.products;
     state.filter = action.payload.filter;
+    state.catalog.id = action.payload.catalog._id;
     state.status = SUCCEEDED;
   },
   rejected: (state) => {
@@ -60,7 +62,9 @@ const fetchAllProductsReducer = {
 export const productsSlice = createSlice({
   name: "products",
   initialState: {
-    catalog: null,
+    catalog: {
+      id: null,
+    },
     products: [],
     status: IDLE,
     filters: [],

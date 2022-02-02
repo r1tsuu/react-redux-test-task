@@ -15,14 +15,18 @@ const getFetchUrl = (path, query) => {
 const getImageURL = (urlFromApi) => {
   return (
     config.url +
-    config.apiLanguage.toLowerCase() +
     urlFromApi.split(".")[1] +
     DOTJPG
   );
 };
 
+const combineFilters = (filters) => {
+  return filters.reduce((prev, next) => prev + ',' + next)
+}
+
 export const utils = {
   getPath,
   getFetchUrl,
   getImageURL,
+  combineFilters
 };
