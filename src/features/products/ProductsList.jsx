@@ -13,7 +13,6 @@ const List = styled.ul`
 `;
 
 export const ProductsList = ({ products }) => {
-  console.log(products)
   return (
     <List>
       {products.map((product) => (

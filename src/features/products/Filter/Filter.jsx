@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import Select from "react-select";
 import styled from "styled-components";
 import { Loader } from "../../../common/components/Loader";
 import { StyledButton } from "../../../common/components/StyledButton";
-import { RESET, RESET_ALL } from "../../../common/constants";
+import { ADD, DELETE, RESET, RESET_ALL } from "../../../common/constants";
 import { useFetchFilters, useFilterProducts } from "../productsHooks";
+import { addFilter, deleteFilter, resetFilter } from "../productsSlice";
 
 const StyledItem = styled.li`
   flex: 1 1 calc((100% / 2) - 2rem);
@@ -28,45 +30,81 @@ const FlexContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-const Selector = ({ filter, reset }) => {
-  const [filterId, setFilterId] = useState(null);
-  const [prevFilterId, setPrevFilterId] = useState(null)
+const Selector = ({ title, filterOptions, reset, setReset }) => {
+  const [value, setValue] = useState(null);
+  const [prevValue, setPrevValue] = useState(null);
+  const [type, setType] = useState(null);
 
-  const handleNewValue = (value) => {
-    if (filterId) setPrevFilterId(filterId)
-    setFilterId(value)
-  }
+  const handleNewValue = (newValue) => {
+    setValue(newValue);
+    setPrevValue(value);
+    setType(ADD);
+  };
 
-  const handleClickReset = () => setFilterId(RESET);
-
-  useFilterProducts(filterId, prevFilterId)
+  const handleClickReset = () => {
+    setType(RESET);
+  };
 
   useEffect(() => {
-    if (reset) setFilterId(RESET_ALL);
-  }, [reset]);
+    if (reset) {
+      setType(RESET_ALL);
+      setReset(false);
+    }
+  }, [reset, setReset, type]);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    console.log(type);
+    console.log(value);
+    console.log(prevValue);
+    if (type === ADD) {
+      if (prevValue) dispatch(deleteFilter({filter: prevValue.value}))
+      dispatch(addFilter({filter: value.value}))
+    }
+    if (type === RESET) {
+      dispatch(deleteFilter({filter: value.value}))
+      setValue(null)
+      setPrevValue(null)
+    }
+    if (type === RESET_ALL)  {
+      dispatch(resetFilter())
+      setValue(null)
+      setPrevValue(null)
+    }
+    setType(null)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [type]);
 
   return (
-    <StyledItem key={filter._id}>
+    <StyledItem key={Date.now()}>
       <Select
-        value={filterId}
+        title={title}
+        value={value}
         onChange={handleNewValue}
-        placeholder={filter.group_title}
-        options={filter.filters}
+        placeholder={title}
+        options={filterOptions.filters}
       />
       <StyledButton onClick={handleClickReset}> Reset </StyledButton>
     </StyledItem>
   );
-}
+};
 
 const SelectorsList = ({ filters }) => {
   const [resetValues, setResetValues] = useState(false);
-  const handleReset = () => setResetValues(true);
+  const handleReset = () => {
+    setResetValues(true);
+  };
   return (
     <FlexContainer>
       <StyledList>
         {filters.map((filter) => (
           <StyledItem key={filter._id}>
-            <Selector reset={resetValues} filter={filter} />
+            <Selector
+              reset={resetValues}
+              setReset={setResetValues}
+              title={filter.group_title}
+              filterOptions={filter}
+            />
           </StyledItem>
         ))}
       </StyledList>
@@ -87,5 +125,5 @@ export const Filter = ({ catalogId }) => {
         <SelectorsList filters={filters} />
       </FilterContent>
     );
-  return <Loader />
+  return <Loader />;
 };

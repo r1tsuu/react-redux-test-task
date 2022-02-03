@@ -52,7 +52,6 @@ export const productsSlice = createSlice({
   },
   reducers: {
     addFilter(state, action) {
-      console.log(action)
       state.filters = [...state.filters, action.payload.filter]
     },
     deleteFilter(state, action) {
