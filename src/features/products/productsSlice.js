@@ -29,7 +29,9 @@ const fetchAllProductsReducer = {
     state.products = action.payload.products;
     state.catalog = action.payload.catalog;
     state.status = SUCCEEDED;
-    if (!action.payload.isFilter) state.filters = [];
+    if (action.payload.isFilter) {
+      state.filters = []
+    }
   },
   rejected: (state) => {
     state.status = FAILED;
@@ -70,4 +72,4 @@ export const productsSlice = createSlice({
   },
 });
 
-export const { addFilter, deleteFilter, resetFilter } = productsSlice.actions;
+export const { addFilter, deleteFi
