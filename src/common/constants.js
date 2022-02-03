@@ -5,4 +5,5 @@ export const FAILED = "FAILED";
 export const DELETE = "DELETE";
 export const RESET = "RESET";
 export const RESET_ALL = "RESET_ALL";
+export const RESET_ALL_PENDING = "RESET_ALL_PENDING"
 export const ADD = "ADD"

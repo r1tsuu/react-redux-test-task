@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { productsApi } from "../../api/productsApi";
-import { FAILED, IDLE, PENDING, SUCCEEDED } from "../../common/constants";
-import { utils } from "../../common/utils";
+import { FAILED, IDLE, PENDING, RESET_ALL_PENDING, SUCCEEDED } from "../../common/constants";
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchAllProductsStatus",
@@ -64,7 +63,7 @@ export const productsSlice = createSlice({
     },
     resetFilter(state) {
       state.filters = [];
-      state.status = IDLE;
+      state.status = RESET_ALL_PENDING;
       state.isFilterInited = false;
     },
   },
