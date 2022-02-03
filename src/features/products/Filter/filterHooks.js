@@ -26,7 +26,7 @@ export const useFilterProducts = (filterId, prevFilterId) => {
     if (filterId === RESET) {
       dispatch(
         deleteFilter({
-          filter: filterId,
+          filter: filterId.value,
         })
       );
       return;
