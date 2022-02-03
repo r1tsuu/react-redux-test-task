@@ -1,12 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Select from "react-select";
 import styled from "styled-components";
 import { Loader } from "../../../common/components/Loader";
 import { StyledButton } from "../../../common/components/StyledButton";
-import { ADD, DELETE, RESET, RESET_ALL } from "../../../common/constants";
-import { useFetchFilters, useFilterProducts } from "../productsHooks";
+import { ADD, RESET, RESET_ALL } from "../../../common/constants";
+import { useSelectProducts } from "../productsHooks";
 import { addFilter, deleteFilter, resetFilter } from "../productsSlice";
+import { useFetchFilters } from "./filterHooks";
 
 const StyledItem = styled.li`
   flex: 1 1 calc((100% / 2) - 2rem);
@@ -35,6 +36,11 @@ const Selector = ({ title, filterOptions, reset, setReset }) => {
   const [prevValue, setPrevValue] = useState(null);
   const [actionType, setActionType] = useState(null);
 
+  const resetState = () => {
+    setValue(null);
+    setPrevValue(null);
+  };
+
   const handleNewValue = (newValue) => {
     setValue(newValue);
     setPrevValue(value);
@@ -54,28 +60,30 @@ const Selector = ({ title, filterOptions, reset, setReset }) => {
 
   const dispatch = useDispatch();
   useEffect(() => {
+    console.log(actionType)
     if (actionType === ADD) {
-      if (prevValue) dispatch(deleteFilter({filter: prevValue.value}))
-      dispatch(addFilter({filter: value.value}))
+      if (prevValue) dispatch(deleteFilter({ filter: prevValue.value }));
+      dispatch(addFilter({ filter: value.value }));
     }
     if (actionType === RESET) {
-      dispatch(deleteFilter({filter: value.value}))
-      setValue(null)
-      setPrevValue(null)
+      try {
+      dispatch(deleteFilter({ filter: value.value }));
+      } catch (error) {
+        if (error === TypeError) alert('select value is already null')
+      }
+      resetState();
     }
-    if (actionType === RESET_ALL)  {
-      dispatch(resetFilter())
-      setValue(null)
-      setPrevValue(null)
+    if (actionType === RESET_ALL) {
+      dispatch(resetFilter());
+      resetState();
     }
-    setActionType(null)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    setActionType(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actionType]);
 
   return (
     <StyledItem key={Date.now()}>
       <Select
-        title={title}
         value={value}
         onChange={handleNewValue}
         placeholder={title}
@@ -114,8 +122,9 @@ const FilterContent = styled.div`
   padding-bottom: 10rem;
 `;
 
-export const Filter = ({ catalogId }) => {
-  const filters = useFetchFilters(catalogId);
+export const Filter = () => {
+  const { stateCatalog } = useSelectProducts()
+  const filters = useFetchFilters(stateCatalog.id);
   if (filters)
     return (
       <FilterContent>

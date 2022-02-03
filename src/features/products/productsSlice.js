@@ -1,29 +1,24 @@
-import {
-  createAction,
-  createAsyncThunk,
-  createReducer,
-  createSlice,
-} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { productsApi } from "../../api/productsApi";
 import { FAILED, IDLE, PENDING, SUCCEEDED } from "../../common/constants";
+import { utils } from "../../common/utils";
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchAllProductsStatus",
-  async (catalog) => {
-    const data = await productsApi.fetchByCatalog(catalog);
+  async ({ catalog, filters }) => {
+    const data = await productsApi.fetchByCatalog(
+      catalog,
+      filters.length ? utils.combineFilters(filters) : null
+    );
     return {
       products: data.products,
       catalog: {
         url: catalog,
-        id: data.catalog._id
+        id: data.catalog._id,
       },
     };
   }
 );
-
-// export const addFilter = createAction("products/filter/addFilter");
-// export const deleteFilter = createAction("products/filter/deleteFilter");
-// export const resetFilter = createAction("products/filter/resetFilter");
 
 const fetchAllProductsReducer = {
   pending: (state) => {
@@ -44,7 +39,7 @@ export const productsSlice = createSlice({
   initialState: {
     catalog: {
       id: null,
-      url: null
+      url: null,
     },
     products: [],
     status: IDLE,
@@ -52,16 +47,16 @@ export const productsSlice = createSlice({
   },
   reducers: {
     addFilter(state, action) {
-      state.filters = [...state.filters, action.payload.filter]
+      state.filters = [...state.filters, action.payload.filter];
     },
     deleteFilter(state, action) {
-      console.log(action)
-      console.log(state.filters)
+      console.log(action);
+      console.log(state.filters);
       state.filters = state.filters.filter((f) => action.payload.filter !== f);
     },
     resetFilter(state) {
-      state.filters = []
-    }
+      state.filters = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -71,4 +66,4 @@ export const productsSlice = createSlice({
   },
 });
 
-export const {addFilter, deleteFilter, resetFilter} = productsSlice.actions
+export const { addFilter, deleteFilter, resetFilter } = productsSlice.actions;
