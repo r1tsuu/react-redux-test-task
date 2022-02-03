@@ -59,7 +59,7 @@ const Selector = ({ title, filterOptions, reset, setReset }) => {
     }
   }, [reset, setReset, actionType]);
 
-  /** useSelectFilters hook.d */
+  /** useSelectFilters hook / */
   const dispatch = useDispatch();
   useEffect(() => {
     // Здесь можно конечно и switch(actionType) но мне как-то if'ы приятней смотрятся
