@@ -48,14 +48,16 @@ export const productsSlice = createSlice({
   reducers: {
     addFilter(state, action) {
       state.filters = [...state.filters, action.payload.filter];
+      state.status = IDLE
     },
     deleteFilter(state, action) {
       console.log(action);
-      console.log(state.filters);
       state.filters = state.filters.filter((f) => action.payload.filter !== f);
+      state.status = IDLE;
     },
     resetFilter(state) {
       state.filters = [];
+      state.status = IDLE;
     },
   },
   extraReducers: (builder) => {

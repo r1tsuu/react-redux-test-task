@@ -32,6 +32,7 @@ const FlexContainer = styled.div`
 `;
 
 const Selector = ({ title, filterOptions, reset, setReset }) => {
+  // idk how to name this. value = {value: 'filterId', label: 'black'}
   const [value, setValue] = useState(null);
   const [prevValue, setPrevValue] = useState(null);
   const [actionType, setActionType] = useState(null);
@@ -58,18 +59,19 @@ const Selector = ({ title, filterOptions, reset, setReset }) => {
     }
   }, [reset, setReset, actionType]);
 
+  /** useSelectFilters hook. */
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log(actionType)
+    // Здесь можно конечно и switch(actionType) но мне как-то if'ы приятней смотрятся
     if (actionType === ADD) {
       if (prevValue) dispatch(deleteFilter({ filter: prevValue.value }));
       dispatch(addFilter({ filter: value.value }));
     }
     if (actionType === RESET) {
       try {
-      dispatch(deleteFilter({ filter: value.value }));
+        dispatch(deleteFilter({ filter: value.value }));
       } catch (error) {
-        if (error === TypeError) alert('select value is already null')
+        if (error === TypeError) alert("select value is already null");
       }
       resetState();
     }
@@ -80,6 +82,7 @@ const Selector = ({ title, filterOptions, reset, setReset }) => {
     setActionType(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actionType]);
+  /** useSelectFilters hook. */
 
   return (
     <StyledItem key={Date.now()}>
@@ -123,7 +126,7 @@ const FilterContent = styled.div`
 `;
 
 export const Filter = () => {
-  const { stateCatalog } = useSelectProducts()
+  const { stateCatalog } = useSelectProducts();
   const filters = useFetchFilters(stateCatalog.id);
   if (filters)
     return (
