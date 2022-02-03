@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import Select from "react-select";
 import styled from "styled-components";
-import { StyledButton } from "../../common/components/StyledButton";
-import { RESET } from "../../common/constants";
-import { useFetchFilters, useFilterProducts } from "./hooks";
+import { Loader } from "../../../common/components/Loader";
+import { StyledButton } from "../../../common/components/StyledButton";
+import { RESET, RESET_ALL } from "../../../common/constants";
+import { useFetchFilters, useFilterProducts } from "../productsHooks";
 
 const StyledItem = styled.li`
   flex: 1 1 calc((100% / 2) - 2rem);
@@ -35,13 +36,13 @@ const Selector = ({ filter, reset }) => {
     if (filterId) setPrevFilterId(filterId)
     setFilterId(value)
   }
-  
+
   const handleClickReset = () => setFilterId(RESET);
 
   useFilterProducts(filterId, prevFilterId)
 
   useEffect(() => {
-    setFilterId(null);
+    if (reset) setFilterId(RESET_ALL);
   }, [reset]);
 
   return (
@@ -58,8 +59,8 @@ const Selector = ({ filter, reset }) => {
 }
 
 const SelectorsList = ({ filters }) => {
-  const [resetValues, setResetValues] = useState(true);
-  const handleReset = () => setResetValues(!resetValues);
+  const [resetValues, setResetValues] = useState(false);
+  const handleReset = () => setResetValues(true);
   return (
     <FlexContainer>
       <StyledList>
@@ -86,5 +87,5 @@ export const Filter = ({ catalogId }) => {
         <SelectorsList filters={filters} />
       </FilterContent>
     );
-  return null;
+  return <Loader />
 };

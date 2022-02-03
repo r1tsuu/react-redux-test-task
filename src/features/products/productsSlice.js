@@ -1,4 +1,9 @@
-import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAction,
+  createAsyncThunk,
+  createReducer,
+  createSlice,
+} from "@reduxjs/toolkit";
 import { productsApi } from "../../api/productsApi";
 import { FAILED, IDLE, PENDING, SUCCEEDED } from "../../common/constants";
 
@@ -6,43 +11,19 @@ export const fetchProducts = createAsyncThunk(
   "products/fetchAllProductsStatus",
   async (catalog) => {
     const data = await productsApi.fetchByCatalog(catalog);
-    console.log(data.catalog, 'asdadsaaa')
-    // console.log(data, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaAA??')
     return {
       products: data.products,
-      catalog: data.catalog,
+      catalog: {
+        url: catalog,
+        id: data.catalog._id
+      },
     };
   }
 );
 
-export const addFilter = createAction("products/filter/addFilter", (filter) => {
-  return {
-    filter: filter,
-  };
-});
-
-export const deleteFilter = createAction(
-  "products/filter/deleteFilter",
-  (filter) => {
-    return {
-      filter: filter,
-    };
-  }
-);
-
-export const resetFilter = createAction("products/filter/resetFilter");
-
-const productsFilterReducer = {
-  add: (state, action) => {
-    state.filters.push(action.payload.filter);
-  },
-  delete: (state, action) => {
-    state.filters = state.filters.filter((f) => action.payload.filter !== f);
-  },
-  reset: (state) => {
-    state.filters = [];
-  },
-};
+// export const addFilter = createAction("products/filter/addFilter");
+// export const deleteFilter = createAction("products/filter/deleteFilter");
+// export const resetFilter = createAction("products/filter/resetFilter");
 
 const fetchAllProductsReducer = {
   pending: (state) => {
@@ -50,8 +31,7 @@ const fetchAllProductsReducer = {
   },
   fulfilled: (state, action) => {
     state.products = action.payload.products;
-    state.filter = action.payload.filter;
-    state.catalog.id = action.payload.catalog._id;
+    state.catalog = action.payload.catalog;
     state.status = SUCCEEDED;
   },
   rejected: (state) => {
@@ -64,16 +44,25 @@ export const productsSlice = createSlice({
   initialState: {
     catalog: {
       id: null,
+      url: null
     },
     products: [],
     status: IDLE,
     filters: [],
   },
-  reducers: (builder) => {
-    builder
-      .addCase(addFilter, productsFilterReducer.add)
-      .addCase(deleteFilter, productsFilterReducer.delete)
-      .addCase(resetFilter, productsFilterReducer.reset);
+  reducers: {
+    addFilter(state, action) {
+      console.log(action)
+      state.filters = [...state.filters, action.payload.filter]
+    },
+    deleteFilter(state, action) {
+      console.log(action)
+      console.log(state.filters)
+      state.filters = state.filters.filter((f) => action.payload.filter !== f);
+    },
+    resetFilter(state) {
+      state.filters = []
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -82,3 +71,5 @@ export const productsSlice = createSlice({
       .addCase(fetchProducts.rejected, fetchAllProductsReducer.rejected);
   },
 });
+
+export const {addFilter, deleteFilter, resetFilter} = productsSlice.actions

@@ -1,5 +1,4 @@
 import { config } from "../app/config";
-import { DOTJPG } from "./constants";
 import { buildUrl } from "../../node_modules/build-url/dist/build-url";
 
 const getPath = (path, pathParams = "") =>
@@ -13,7 +12,8 @@ const getFetchUrl = (path, query) => {
 };
 
 const getImageURL = (urlFromApi) => {
-  return config.url + urlFromApi.split(".")[1] + DOTJPG;
+  const splitted = urlFromApi.split(".");
+  return config.url + splitted[1] + "." + splitted[2];
 };
 
 const combineFilters = (filters) => {

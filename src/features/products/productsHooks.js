@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { filtersApi } from "../../api/filtersApi";
 import { useDispatch, useSelector } from "react-redux";
-import { IDLE, RESET } from "../../common/constants";
-import { addFilter, deleteFilter, fetchProducts, resetFilter } from "./productsSlice";
+import { IDLE, RESET, RESET_ALL } from "../../common/constants";
+import {
+  addFilter,
+  deleteFilter,
+  fetchProducts,
+  resetFilter,
+} from "./productsSlice";
 
 export const useFetchFilters = (catalogId) => {
   const [filters, setFilters] = useState(null);
-  console.log(catalogId);
   useEffect(() => {
     if (catalogId) {
       filtersApi
@@ -14,16 +18,16 @@ export const useFetchFilters = (catalogId) => {
         .then((filters) => setFilters(filters));
     }
   }, [catalogId]);
-  if (filters) return filters;
+  if (filters) return filters
 };
 
 export const useProductsFetch = (catalog, stateCatalog, status) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    if (status === IDLE || catalog !== stateCatalog.url.ua)
+    if (status === IDLE || catalog !== stateCatalog.url)
       dispatch(fetchProducts(catalog));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch]);
+  }, [catalog]);
 };
 
 export const useSelectProducts = () => {
@@ -39,12 +43,21 @@ export const useSelectProducts = () => {
 export const useFilterProducts = (filterId, prevFilterId) => {
   const dispatch = useDispatch();
   useEffect(() => {
+    if (!filterId) return;
     if (filterId === RESET) {
-      dispatch(resetFilter());
+      dispatch(deleteFilter({
+        filter: filterId
+      }))
       return;
     }
-    dispatch(addFilter(filterId));
-    if (prevFilterId) dispatch(deleteFilter(prevFilterId));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (filterId === RESET_ALL) {
+      dispatch(resetFilter({}));
+      return;
+    }
+    if (prevFilterId) {
+      dispatch(deleteFilter({ filter: prevFilterId.value }));
+    }
+    dispatch(addFilter({ filter: filterId.value }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filterId]);
-}; 
+};

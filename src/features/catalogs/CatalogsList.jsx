@@ -12,7 +12,6 @@ const List = styled.ul`
 `;
 
 export const CatalogsList = ({ catalogs }) => {
-  console.log(catalogs);
   return (
     <List>
       {catalogs.map((catalog) => (
