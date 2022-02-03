@@ -72,4 +72,4 @@ export const productsSlice = createSlice({
   },
 });
 
-export const { addFilter, deleteFi
+export const { addFilter, deleteFilter, resetFilter } = productsSlice.actions;
