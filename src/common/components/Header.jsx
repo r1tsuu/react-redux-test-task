@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Container } from "./Container";
 
@@ -37,7 +38,7 @@ export const Header = () => {
   return (
     <Content>
       <HeaderContainer>
-        <HeaderText>Test-Task-App</HeaderText>
+        <Link to='/'> <HeaderText>Catalogs</HeaderText> </Link>
         <HeaderText>Test-Task-App</HeaderText>
         <HeaderText>Test-Task-App</HeaderText>
       </HeaderContainer>

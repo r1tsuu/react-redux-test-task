@@ -16,6 +16,7 @@ export const fetchProducts = createAsyncThunk(
         url: catalog,
         id: data.catalog._id,
       },
+      isFilter: Boolean(filters.length),
     };
   }
 );
@@ -28,6 +29,7 @@ const fetchAllProductsReducer = {
     state.products = action.payload.products;
     state.catalog = action.payload.catalog;
     state.status = SUCCEEDED;
+    if (!action.payload.isFilter) state.filters = [];
   },
   rejected: (state) => {
     state.status = FAILED;
@@ -48,7 +50,7 @@ export const productsSlice = createSlice({
   reducers: {
     addFilter(state, action) {
       state.filters = [...state.filters, action.payload.filter];
-      state.status = IDLE
+      state.status = IDLE;
     },
     deleteFilter(state, action) {
       console.log(action);
