@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { filtersApi } from "../../../api/filtersApi";
+import { utils } from "../../../common/utils";
+import { useSelectProducts } from "../productsHooks";
 
 
 export const useFetchFilters = (catalogId) => {
@@ -14,4 +17,17 @@ export const useFetchFilters = (catalogId) => {
     }
   }, [catalogId]);
   if (filters) return filters;
+};
+
+export const useFilterNavigation = () => {
+  const navigate = useNavigate();
+  const { filters, isFilterInited } = useSelectProducts();
+  useEffect(() => {
+    if (filters.length) {
+      if (isFilterInited) return;
+      navigate(utils.combineFilters(filters));
+      return
+    }
+    navigate('')
+  }, [filters]);
 };

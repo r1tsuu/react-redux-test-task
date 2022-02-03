@@ -25,17 +25,17 @@ const CatalogSection = styled.section`
 `;
 
 export const CatalogPage = () => {
-  const catalog = useCatalogParams();
+  const [catalog, filter] = useCatalogParams();
   return (
     <PageWrapper>
       <CatalogHeading>
         <CatalogTitle>{catalog}</CatalogTitle>
       </CatalogHeading>
       <Container>
-        <Filter />
+        <Filter urlFilters={filter}/>
       </Container>
       <Container>
-        <Products catalog={catalog} />
+        <Products catalog={catalog} filter={filter}/>
       </Container>
     </PageWrapper>
   );

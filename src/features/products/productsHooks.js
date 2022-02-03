@@ -1,16 +1,19 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import { IDLE } from "../../common/constants";
-import { fetchProducts } from "./productsSlice";
+import { utils } from "../../common/utils";
+import { fetchProducts, initUrlFilter } from "./productsSlice";
 
-export const useProductsFetch = (catalog, stateCatalog, status, filters) => {
+export const useProductsFetch = (catalog, stateCatalog, status, filter) => {
   const dispatch = useDispatch();
   useEffect(() => {
     if (status === IDLE || catalog !== stateCatalog.url) {
-      dispatch(fetchProducts({ catalog, filters }));
+      dispatch(fetchProducts({ catalog, filter }));
+      if (filter) dispatch(initUrlFilter({ filter: filter }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [catalog, filters]);
+  }, [catalog, filter]);
 };
 
 export const useSelectProducts = () => {
@@ -20,7 +23,6 @@ export const useSelectProducts = () => {
     status: productsState.status,
     stateCatalog: productsState.catalog,
     filters: productsState.filters,
+    isFilterInited: productsState.isFilterInited
   };
 };
-
-export const useFilterProducts = () => {};

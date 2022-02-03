@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 
 export const useCatalogParams = () => {
-  const params = useParams();
-  return params.catalog;
+  const {catalog, filter} = useParams();
+  console.log(catalog, filter)
+  return [catalog, filter]
 };

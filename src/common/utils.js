@@ -20,9 +20,21 @@ const combineFilters = (filters) => {
   return filters.reduce((prev, next) => prev + "," + next);
 };
 
+/**
+ * 
+ * @param {string} urlFilter 
+ * @param {Array<{value: string}>} options 
+ * @returns {string}
+ */
+const findUrlFilterInOptions = (urlFilter, options) => {
+  const filters = urlFilter.split(',')
+  return options.find((option) => filters.find((filter) => filter === option.value) )
+}
+
 export const utils = {
   getPath,
   getFetchUrl,
   getImageURL,
   combineFilters,
+  findUrlFilterInOptions
 };

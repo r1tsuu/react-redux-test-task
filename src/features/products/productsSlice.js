@@ -5,18 +5,14 @@ import { utils } from "../../common/utils";
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchAllProductsStatus",
-  async ({ catalog, filters }) => {
-    const data = await productsApi.fetchByCatalog(
-      catalog,
-      filters.length ? utils.combineFilters(filters) : null
-    );
+  async ({ catalog, filter }) => {
+    const data = await productsApi.fetchByCatalog(catalog, filter);
     return {
       products: data.products,
       catalog: {
         url: catalog,
         id: data.catalog._id,
       },
-      isFilter: Boolean(filters.length),
     };
   }
 );
@@ -30,7 +26,7 @@ const fetchAllProductsReducer = {
     state.catalog = action.payload.catalog;
     state.status = SUCCEEDED;
     if (action.payload.isFilter) {
-      state.filters = []
+      state.filters = [];
     }
   },
   rejected: (state) => {
@@ -48,20 +44,28 @@ export const productsSlice = createSlice({
     products: [],
     status: IDLE,
     filters: [],
+    isFilterInited: false,
   },
   reducers: {
+    initUrlFilter(state, action) {
+      state.filters = action.payload.filter.split(",");
+      state.isFilterInited = true;
+    },
     addFilter(state, action) {
       state.filters = [...state.filters, action.payload.filter];
       state.status = IDLE;
+      state.isFilterInited = false;
     },
     deleteFilter(state, action) {
       console.log(action);
       state.filters = state.filters.filter((f) => action.payload.filter !== f);
       state.status = IDLE;
+      state.isFilterInited = false;
     },
     resetFilter(state) {
       state.filters = [];
       state.status = IDLE;
+      state.isFilterInited = false;
     },
   },
   extraReducers: (builder) => {
@@ -72,4 +76,5 @@ export const productsSlice = createSlice({
   },
 });
 
-export const { addFilter, deleteFilter, resetFilter } = productsSlice.actions;
+export const { initUrlFilter, addFilter, deleteFilter, resetFilter } =
+  productsSlice.actions;

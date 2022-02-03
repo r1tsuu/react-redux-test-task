@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import Select from "react-select";
 import styled from "styled-components";
 import { Loader } from "../../../common/components/Loader";
 import { StyledButton } from "../../../common/components/StyledButton";
 import { ADD, RESET, RESET_ALL } from "../../../common/constants";
+import { utils } from "../../../common/utils";
 import { useSelectProducts } from "../productsHooks";
 import { addFilter, deleteFilter, resetFilter } from "../productsSlice";
-import { useFetchFilters } from "./filterHooks";
+import { useFetchFilters, useFilterNavigation } from "./filterHooks";
 
 const StyledItem = styled.li`
   flex: 1 1 calc((100% / 2) - 2rem);
@@ -31,11 +33,17 @@ const FlexContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-const Selector = ({ title, filterOptions, reset, setReset }) => {
+const Selector = ({ title, filterOptions, reset, setReset, urlFilters }) => {
   // idk how to name this. value = {value: 'filterId', label: 'black'}
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState(
+    urlFilters
+      ? utils.findUrlFilterInOptions(urlFilters, filterOptions.filters)
+      : null
+  );
   const [prevValue, setPrevValue] = useState(null);
   const [actionType, setActionType] = useState(null);
+
+  useFilterNavigation()
 
   const resetState = () => {
     setValue(null);
@@ -61,11 +69,14 @@ const Selector = ({ title, filterOptions, reset, setReset }) => {
 
   /** useSelectFilters hook / */
   const dispatch = useDispatch();
+
   useEffect(() => {
     // Здесь можно конечно и switch(actionType) но мне как-то if'ы приятней смотрятся
     if (actionType === ADD) {
-      if (prevValue) dispatch(deleteFilter({ filter: prevValue.value }));
-      dispatch(addFilter({ filter: value.value }));
+      if (prevValue) {
+        dispatch(deleteFilter({ filter: prevValue.value }));
+      } 
+        dispatch(addFilter({ filter: value.value }));
     }
     if (actionType === RESET) {
       try {
@@ -97,7 +108,7 @@ const Selector = ({ title, filterOptions, reset, setReset }) => {
   );
 };
 
-const SelectorsList = ({ filters }) => {
+const SelectorsList = ({ filters, urlFilters }) => {
   const [resetValues, setResetValues] = useState(false);
   const handleReset = () => {
     setResetValues(true);
@@ -112,6 +123,7 @@ const SelectorsList = ({ filters }) => {
               setReset={setResetValues}
               title={filter.group_title}
               filterOptions={filter}
+              urlFilters={urlFilters}
             />
           </StyledItem>
         ))}
@@ -125,13 +137,13 @@ const FilterContent = styled.div`
   padding-bottom: 10rem;
 `;
 
-export const Filter = () => {
+export const Filter = ({ urlFilters }) => {
   const { stateCatalog } = useSelectProducts();
   const filters = useFetchFilters(stateCatalog.id);
   if (filters)
     return (
       <FilterContent>
-        <SelectorsList filters={filters} />
+        <SelectorsList urlFilters={urlFilters} filters={filters} />
       </FilterContent>
     );
   return <Loader />;

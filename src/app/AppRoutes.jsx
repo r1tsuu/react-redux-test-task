@@ -7,7 +7,9 @@ export const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/catalog/:catalog" element={<CatalogPage />} />
+      <Route path="/catalog/:catalog" element={<CatalogPage />}>
+        <Route path=':filter' element={<CatalogPage />}/>
+      </Route>
     </Routes>
   );
 };
