@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
-import { addFilter, deleteFilter, resetFilter } from "../productsSlice";
 import { filtersApi } from "../../../api/filtersApi";
-import { ADD, RESET, RESET_ALL } from "../../../common/constants";
+
 
 export const useFetchFilters = (catalogId) => {
   const [filters, setFilters] = useState(null);
@@ -15,35 +14,4 @@ export const useFetchFilters = (catalogId) => {
     }
   }, [catalogId]);
   if (filters) return filters;
-};
-
-export const useFilterProducts = (data, type) => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    // Да, здесь наверное более чисто смотрится если заменить if'ы на switch (filterId)
-    // Но мне if'ы как-то больше нравятся)
-    if (!type) return;
-    if (type === RESET) {
-      dispatch(
-        deleteFilter({
-          filter: data.filter,
-        })
-      );
-      return;
-    }
-    // В этой реализации у этого кейса есть один минус - если у нас n выборов фильтра
-    // то данный код выполнится n раз и action resetFilter тоже
-    // Но вроде как в этом нет проблемы
-    if (type === RESET_ALL) {
-      dispatch(resetFilter({}));
-      return;
-    }
-    if (type === ADD) {
-      if (data.prevFilter) {
-        dispatch(deleteFilter({ filter: data.prevFilter }));
-      }
-      dispatch(addFilter({ filter: data.filter }));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, type]);
 };

@@ -33,47 +33,44 @@ const FlexContainer = styled.div`
 const Selector = ({ title, filterOptions, reset, setReset }) => {
   const [value, setValue] = useState(null);
   const [prevValue, setPrevValue] = useState(null);
-  const [type, setType] = useState(null);
+  const [actionType, setActionType] = useState(null);
 
   const handleNewValue = (newValue) => {
     setValue(newValue);
     setPrevValue(value);
-    setType(ADD);
+    setActionType(ADD);
   };
 
   const handleClickReset = () => {
-    setType(RESET);
+    setActionType(RESET);
   };
 
   useEffect(() => {
     if (reset) {
-      setType(RESET_ALL);
+      setActionType(RESET_ALL);
       setReset(false);
     }
-  }, [reset, setReset, type]);
+  }, [reset, setReset, actionType]);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log(type);
-    console.log(value);
-    console.log(prevValue);
-    if (type === ADD) {
+    if (actionType === ADD) {
       if (prevValue) dispatch(deleteFilter({filter: prevValue.value}))
       dispatch(addFilter({filter: value.value}))
     }
-    if (type === RESET) {
+    if (actionType === RESET) {
       dispatch(deleteFilter({filter: value.value}))
       setValue(null)
       setPrevValue(null)
     }
-    if (type === RESET_ALL)  {
+    if (actionType === RESET_ALL)  {
       dispatch(resetFilter())
       setValue(null)
       setPrevValue(null)
     }
-    setType(null)
+    setActionType(null)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [type]);
+  }, [actionType]);
 
   return (
     <StyledItem key={Date.now()}>
