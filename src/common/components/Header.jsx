@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Container } from "./Container";
+import { StyledLink } from "./StyledLink";
 
 const HeaderText = styled.h3`
   font-size: 48px;
@@ -35,12 +36,12 @@ const Content = styled.header`
 `;
 
 export const Header = () => {
+  const location = useLocation()
+  const isHomeLocation = (location.pathname === '/')
   return (
-    <Content>
+    <Content> 
       <HeaderContainer>
-        <Link to='/'> <HeaderText>Catalogs</HeaderText> </Link>
-        <HeaderText>Test-Task-App</HeaderText>
-        <HeaderText>Test-Task-App</HeaderText>
+        { !isHomeLocation && <StyledLink to='/'> <HeaderText>Catalogs</HeaderText> </StyledLink> }
       </HeaderContainer>
     </Content>
   );
